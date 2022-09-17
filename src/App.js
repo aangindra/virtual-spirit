@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import Home from "./Home";
-import {
-  NotificationProvider,
-  NotificationContext,
-} from "./components/Notification";
+import { NotificationProvider } from "./components/Notification";
 import "./App.css";
 
 const App = () => {

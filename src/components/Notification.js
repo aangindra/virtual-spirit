@@ -15,25 +15,6 @@ export const useNotification = () => {
   return useContext(NotificationContext);
 };
 
-export const addNotification = (params) => {
-  // unused
-  console.warn(
-    `You are using obsolete addNotification(), please use useNotification instead!`
-  );
-};
-export const removeNotification = (id) => {
-  // unused
-  console.warn(
-    `You are using obsolete removeNotification(), please use useNotification instead!`
-  );
-};
-export const clearNotifications = () => {
-  // unused
-  console.warn(
-    `You are using obsolete clearNotifications(), please use useNotification instead!`
-  );
-};
-
 const useBaseNotification = () => {
   const [notificationState, setNotificationState] = useState(
     DEFAULT_NOTIFICATION_STATE
@@ -162,7 +143,6 @@ const Notification = ({ message, children, type, show, onClose }) => {
                   : " text-white bg-primary-500 hover:bg-primary-600")
               }
             >
-              <i className="cursor-pointer fa fa-times-circle text-lg absolute mt-2 mr-2 top-0 right-0"></i>
               {message}
             </div>
           )}
@@ -173,81 +153,3 @@ const Notification = ({ message, children, type, show, onClose }) => {
 };
 
 export default Notification;
-
-const LEVEL_CLASSNAMES = {
-  info: "bg-blue-100 border-blue-300 text-blue-700",
-  success: "bg-emerald-100 border-green-300 text-green-700",
-  danger: "bg-red-100 border-red-300 text-red-700",
-};
-const LEVEL_ICON = {
-  info: "fa fa-info-circle",
-  success: "fa fa-check-circle",
-  danger: "fa fa-exclamation-triangle",
-};
-export const InlineNotificationBar = () => {
-  const { notificationState } = useNotification();
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!notificationState.show) return;
-    setVisible(true);
-  }, [notificationState.show]);
-
-  if (!visible || !notificationState?.message) return null;
-  return (
-    <div
-      className={`flex w-full px-4 justify-between border-b ${
-        LEVEL_CLASSNAMES[notificationState?.type]
-      }`}
-    >
-      <div className="px-3 py-4">
-        <i className={LEVEL_ICON[notificationState?.type]} />{" "}
-        {notificationState?.message}
-      </div>
-      <a
-        href="#"
-        className="block px-3 py-4 hover:opacity-50 transition duration-200"
-        onClick={(e) => {
-          if (e) e.preventDefault();
-          setVisible(false);
-        }}
-      >
-        <i className="fa fa-times" />
-      </a>
-    </div>
-  );
-};
-
-export const InlineNotificationCard = () => {
-  const { notificationState } = useNotification();
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!notificationState.show) return;
-    setVisible(true);
-  }, [notificationState.show]);
-
-  if (!visible || !notificationState?.message) return null;
-  return (
-    <div className="p-4">
-      <div
-        className={`flex w-full px-4 justify-between border border-b-4 rounded-md ${
-          LEVEL_CLASSNAMES[notificationState?.type]
-        }`}
-      >
-        <div className="px-3 py-4">
-          <i className={LEVEL_ICON[notificationState?.type]} />{" "}
-          {notificationState?.message}
-        </div>
-        <a
-          href="#"
-          className="block px-3 py-4 hover:opacity-50 transition duration-200"
-          onClick={(e) => {
-            if (e) e.preventDefault();
-            setVisible(false);
-          }}
-        >
-          <i className="fa fa-times" />
-        </a>
-      </div>
-    </div>
-  );
-};

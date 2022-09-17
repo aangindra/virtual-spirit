@@ -119,15 +119,6 @@ export const FormModal = ({
       ) : title ? (
         <div className="modal-header flex text-md md:text-2xl font-bold py-5 px-6 border-b border-gray-300">
           <h4 style={{ margin: 0, padding: 0 }}>{title}</h4>
-          {onClose ? (
-            <a
-              href="#"
-              onClick={onClose}
-              className="absolute top-0 right-0 mt-5 mr-6"
-            >
-              <i className="fa fa-times-circle text-2xl text-red-300 transition duration-300 hover:text-red-800"></i>
-            </a>
-          ) : null}
         </div>
       ) : null}
       <div className={"modal-body py-4 px-6"}>{children}</div>
