@@ -13,6 +13,7 @@ import {
   deleteRequest,
 } from "./request";
 import ENDPOINTS from "../../constants/endpoints";
+import { handleError } from "../../libs/errors";
 
 function* getPosts(action) {
   const { from, to } = action.payload;
@@ -21,6 +22,7 @@ function* getPosts(action) {
       yield call(getPostById, i);
     }
   } catch (err) {
+    handleError(err);
     console.log(err);
   }
 }
@@ -30,7 +32,7 @@ function* getPostById(id) {
     const response = yield call(getRequest, ENDPOINTS.POSTS + "/" + id);
     yield put(fetchPosts(response.data));
   } catch (err) {
-    console.log(err);
+    handleError(err);
   }
 }
 
@@ -40,7 +42,7 @@ function* createPost(action) {
     const response = yield call(postRequest, ENDPOINTS.POSTS, payload);
     yield put(addPost(response.data));
   } catch (err) {
-    console.log(err);
+    handleError(err);
   }
 }
 
@@ -54,21 +56,17 @@ function* updatePost(action) {
     );
     yield put(editPost(response.data));
   } catch (err) {
-    console.log(err);
+    handleError(err);
   }
 }
 
 function* deletePost(action) {
   try {
     const { payload } = action;
-    const response = yield call(
-      deleteRequest,
-      ENDPOINTS.POSTS + `/${payload.id}`,
-      payload
-    );
+    yield call(deleteRequest, ENDPOINTS.POSTS + `/${payload.id}`, payload);
     yield put(removePost(payload));
   } catch (err) {
-    console.log(err);
+    handleError(err);
   }
 }
 

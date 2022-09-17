@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import Home from "./Home";
-import { NotificationProvider } from "./components/Notification";
+import {
+  NotificationProvider,
+  NotificationContext,
+} from "./components/Notification";
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [mounted, setMounted] = useState(false);
@@ -30,8 +35,13 @@ const App = () => {
           <Home />
         </div>
       </motion.div>
+      <ToastContainer />
     </NotificationProvider>
   );
 };
 
 export default App;
+
+export const useNotification = () => {
+  return useContext(NotificationContext);
+};
