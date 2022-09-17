@@ -15,7 +15,7 @@ const Modal = (props) => {
   };
 
   const handleEscapeKeydown = (e) => {
-    if (e.keyCode == 27) {
+    if (parseInt(e.keyCode) === 27) {
       handleClickModalMask();
     }
   };
