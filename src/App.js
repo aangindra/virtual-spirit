@@ -1,53 +1,39 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import lodash from "lodash";
-import { getPosts } from "./redux/actions/post";
-import Card from "./components/Card";
-import Loader from "./components/Loader";
-import CardSkeleton from "./components/CardSkeleton";
+import React, { useState, useEffect, useContext } from "react";
+import { motion } from "framer-motion";
+import Home from "./Home";
+import {
+  NotificationProvider,
+  NotificationContext,
+} from "./components/Notification";
 import "./App.css";
-import { MAX_POSTS } from "./constants/common";
 
 const App = () => {
-  const dispatch = useDispatch();
-  const postState = useSelector((state) => state.post);
-  const posts = lodash.get(postState, "posts", []);
-
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    dispatch(getPosts({ from: 1, to: 100 }));
-  }, [dispatch]);
-
-  const handleEdit = (e) => {
-    console.log(postState);
-  };
-
-  const handleDelete = (e) => {
-    console.log("delete...");
-  };
+    setMounted(true);
+  }, []);
 
   return (
-    <div className="bg-neutral-100 w-full min-h-screen">
-      <Loader visible={posts.length < 10} />
-      <div className="flex flex-row gap-6 justify-center flex-wrap py-24">
-        {posts &&
-          posts.length > 10 &&
-          posts.map((post) => (
-            <Card
-              data={post}
-              key={post.id}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
-        {posts &&
-          posts.length < MAX_POSTS &&
-          Array.from(Array(MAX_POSTS - posts.length).keys()).map(() => (
-            <div className="w-1/5">
-              <CardSkeleton />
-            </div>
-          ))}
-      </div>
-    </div>
+    <NotificationProvider>
+      <motion.div
+        animate={mounted ? "visible" : "invisible"}
+        initial="invisible"
+        variants={{
+          invisible: {
+            opacity: 0,
+          },
+          visible: {
+            opacity: 1,
+          },
+        }}
+        transition={{ duration: 0.5, delay: 0 }}
+        id="re-page-wrap"
+      >
+        <div className="bg-neutral-100 w-full min-h-screen">
+          <Home />
+        </div>
+      </motion.div>
+    </NotificationProvider>
   );
 };
 

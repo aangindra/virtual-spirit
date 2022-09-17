@@ -1,6 +1,6 @@
 const ENDPOINTS = {
   // Auth API's
-  FETCH_POSTS: "/posts",
+  POSTS: "/posts",
 };
 
 export default ENDPOINTS;

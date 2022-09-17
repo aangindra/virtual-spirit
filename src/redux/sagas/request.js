@@ -20,3 +20,17 @@ export const postFormDataRequest = async (requestUrl, data) => {
     .then((resp) => resp)
     .catch((error) => error.response);
 };
+
+export const patchRequest = async (requestUrl, data) => {
+  return api
+    .patch(requestUrl, data)
+    .then((resp) => resp)
+    .catch((error) => error.response);
+};
+
+export const deleteRequest = async (requestUrl, data) => {
+  return api
+    .delete(requestUrl, data)
+    .then((resp) => resp)
+    .catch((error) => error.response);
+};
