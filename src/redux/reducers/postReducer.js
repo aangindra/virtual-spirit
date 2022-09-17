@@ -5,17 +5,18 @@ const initialState = {
   posts: [],
 };
 
-const getPosts = (state, action) => ({
-  ...state,
-  getPostsLoading: true,
-});
+const getPosts = (state, action) => {
+  return {
+    ...state,
+    getPostsLoading: true,
+  };
+};
 
 const fetchPosts = (state, action) => {
-  console.log("check the data in reducer", action);
   return {
     ...state,
     getPostsLoading: false,
-    posts: action.payload,
+    posts: state.posts.concat(action.payload),
   };
 };
 

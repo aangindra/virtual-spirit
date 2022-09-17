@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import lodash from "lodash";
 import { getPosts } from "./redux/actions/post";
 import Card from "./components/Card";
+import Loader from "./components/Loader";
+import CardSkeleton from "./components/CardSkeleton";
 import "./App.css";
+import { MAX_POSTS } from "./constants/common";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -11,10 +14,8 @@ const App = () => {
   const posts = lodash.get(postState, "posts", []);
 
   useEffect(() => {
-    if (postState.posts.length < 100) {
-      dispatch(getPosts());
-    }
-  }, [postState.posts, dispatch]);
+    dispatch(getPosts({ from: 1, to: 100 }));
+  }, [dispatch]);
 
   const handleEdit = (e) => {
     console.log(postState);
@@ -25,17 +26,26 @@ const App = () => {
   };
 
   return (
-    <div className="bg-neutral-100 w-full">
-      {/* <div className="bg-neutral-100 absolute top-0 left-0 right-0 bottom-0 -z-10" /> */}
-      <div className="flex flex-row justify-center gap-6 flex-wrap py-24">
-        {posts.map((post) => (
-          <Card
-            data={post}
-            key={post.id}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
+    <div className="bg-neutral-100 w-full min-h-screen">
+      <Loader visible={posts.length < 10} />
+      <div className="flex flex-row gap-6 justify-center flex-wrap py-24">
+        {posts &&
+          posts.length > 10 &&
+          posts.map((post) => (
+            <Card
+              data={post}
+              key={post.id}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        {posts &&
+          posts.length < MAX_POSTS &&
+          Array.from(Array(MAX_POSTS - posts.length).keys()).map(() => (
+            <div className="w-1/5">
+              <CardSkeleton />
+            </div>
+          ))}
       </div>
     </div>
   );
