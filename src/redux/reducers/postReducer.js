@@ -1,3 +1,4 @@
+import lodash from "lodash";
 import {
   GET_POSTS,
   FETCH_POSTS,
@@ -40,7 +41,9 @@ const addPost = (state, action) => {
 
 const editPost = (state, action) => {
   const { payload } = action;
-  state.posts[payload.id - 1] = payload;
+  const id = lodash.findIndex(state.posts, ["id", payload.id]);
+  state.posts[id] = payload;
+
   return {
     ...state,
     getPostsLoading: false,
@@ -49,7 +52,9 @@ const editPost = (state, action) => {
 
 const removePost = (state, action) => {
   const { payload } = action;
-  delete state.posts[payload.id - 1];
+  const id = lodash.findIndex(state.posts, ["id", payload.id]);
+  delete state.posts[id];
+
   return {
     ...state,
     getPostsLoading: false,

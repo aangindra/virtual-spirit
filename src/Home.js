@@ -137,7 +137,10 @@ const Home = () => {
           <button
             onClick={() => {
               setPostModalVisible(!postModalVisible);
-              setFormData({});
+              setFormData({
+                title: "",
+                body: "",
+              });
             }}
             className="cursor-pointer bg-indigo-500 text-white px-4 py-1 rounded-lg flex items-center gap-1 mb-8 mx-32"
           >
